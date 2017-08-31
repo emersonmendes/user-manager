@@ -9,7 +9,10 @@
 - source venv/bin/activate
 - pip install -r requirements.txt
 
-
 # run app
 
 - python run.py
+
+# add installed dependencies in requirements.txt
+
+- pip freeze > requirements.txt
