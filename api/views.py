@@ -1,8 +1,9 @@
 #!/usr/bin/env python
+from flask import Flask
 
-from api import app
+app = Flask(__name__)
 
-
-@app.route("/x")
+@app.route("/")
 def hello():
-    return "Hello World!asdasdaxxx"
+    return "Welcome to User Manager"
+
