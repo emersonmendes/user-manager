@@ -1,18 +1,48 @@
 #!/usr/bin/env python
 
-from tinydb import TinyDB, Query
 from flask import jsonify
+import sqlite3
+from api import models
 
-#botar em um config
-db = TinyDB('db.json')
+def getconn():
+    return sqlite3.connect('user-manager.db')
 
 class UserService():
     
-    userTable = db.table('user')
-    User = Query()
-    
-    def createUser(self,user):
-        return self.userTable.insert(user.to_JSON())
+    def create(self,user):
+        conn = getconn()
+        conn.cursor().execute(
+            """ insert into user ( name, username, password, fk_usergroup ) values ( ?, ?, ?, ? ) """,
+            (user.name, user.username, user.password, user.fk_usergroup) 
+        )
+        conn.close()
 
-    def getByEid(self, eid):
-        return self.userTable.get(eid=1)
+    def getone(self, id):
+        conn = getconn()
+        cursor = conn.cursor()
+        cursor.execute("select * from user where id = ?",(id))
+        result = cursor.fetchone()
+        user = models.User()
+        user.id = result[0]
+        return usergroup
+        conn.close()
+
+class UsergroupService():
+    
+    def create(self, usergroup):
+        conn = getconn()
+        conn.cursor().execute("insert into usergroup (name) values (?)",(usergroup.name,))
+        conn.commit()
+        conn.close()
+        print result
+
+    def getone(self, id):
+        conn = getconn()
+        cursor = conn.cursor()
+        cursor.execute("select * from usergroup where id = ? ",(id))
+        result = cursor.fetchone()
+        usergroup = models.Usergroup()
+        usergroup.id = result[0]
+        usergroup.name = result[1]
+        return usergroup
+        conn.close()
