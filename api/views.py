@@ -17,10 +17,10 @@ class UserController():
     @app.route("/users", methods=['POST'])
     def createUser():
         user = models.User(json = request.json);
-        print(userService.createUser(models.User(json = request.json)))
+        print userService.createUser(models.User(json = request.json))
         return "\nSuccess VERIFICAR DE VOLTAR O JSON\n\n"
 
     @app.route("/users", methods=['GET'])
-    def getUserById():
-        userService.get(request.args.get('eid'))
+    def getUserByEid():
+        print userService.getByEid(request.args.get('eid'))
         return "\nSuccess VERIFICAR DE VOLTAR O JSON\n\n" 

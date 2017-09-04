@@ -14,5 +14,5 @@ class UserService():
     def createUser(self,user):
         return self.userTable.insert(user.to_JSON())
 
-    def get(self, eid):
-        return self.userTable.get(eid = eid)
+    def getByEid(self, eid):
+        return self.userTable.get(eid=1)
