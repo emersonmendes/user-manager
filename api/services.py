@@ -2,47 +2,53 @@
 
 from flask import jsonify
 import sqlite3
-from api import models
+import models
+import dao
 
-def getconn():
-    return sqlite3.connect('user-manager.db')
+
 
 class UserService():
     
     def create(self,user):
-        conn = getconn()
-        conn.cursor().execute(
-            """ insert into user ( name, username, password, fk_usergroup ) values ( ?, ?, ?, ? ) """,
-            (user.name, user.username, user.password, user.fk_usergroup) 
+        id = dao.create(
+            "insert into user ( name, username, password, fk_usergroup ) values ( ?, ?, ?, ? )",
+            (user.name, user.username, user.password, user.fk_usergroup)
         )
-        conn.close()
+        user.id = id
+        return user
 
     def getone(self, id):
-        conn = getconn()
-        cursor = conn.cursor()
-        cursor.execute("select * from user where id = ?",(id))
-        result = cursor.fetchone()
-        user = models.User()
-        user.id = result[0]
-        return usergroup
-        conn.close()
+        return self.parse(dao.getone("select * from user where id = ? ",(id,)))
+
+    def getall(self):
+        users = []
+        for row in dao.getall("select * from user"):
+            users.append(self.parse(row))
+        return users
+
+    def parse(self,result):
+        return models.User(result[0], result[1], result[2], None, result[4])
+
 
 class UsergroupService():
     
     def create(self, usergroup):
-        conn = getconn()
-        conn.cursor().execute("insert into usergroup (name) values (?)",(usergroup.name,))
-        conn.commit()
-        conn.close()
-        print result
+        id = dao.create(
+            "insert into usergroup (name) values (?)",
+            (usergroup.name,)
+        )
+        usergroup.id = id
+        return usergroup
 
     def getone(self, id):
-        conn = getconn()
-        cursor = conn.cursor()
-        cursor.execute("select * from usergroup where id = ? ",(id))
-        result = cursor.fetchone()
-        usergroup = models.Usergroup()
-        usergroup.id = result[0]
-        usergroup.name = result[1]
-        return usergroup
-        conn.close()
+        result = dao.getone("select * from usergroup where id = ? ",(id,))
+        return self.parse(result)
+
+    def getall(self):
+        usergroups = []
+        for row in dao.getall("select * from usergroup"):
+            usergroups.append(self.parse(row))
+        return usergroups
+
+    def parse(self,result):
+        return models.Usergroup(result[0], result[1])
