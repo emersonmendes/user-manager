@@ -3,7 +3,7 @@
 import sqlite3
 
 def getconn():
-    return sqlite3.connect('user-manager.db')
+    return sqlite3.connect('db.sqlite')
 
 def getone(query, params):
     conn = getconn()
@@ -21,10 +21,17 @@ def getall(query):
     conn.close()
     return result
 
-def create(statement, params):
+def save(statement, params):
     conn = getconn()
     cursor = conn.cursor()
     cursor.execute(statement, params)
     conn.commit()
     conn.close()
     return cursor.lastrowid
+
+def delete(statement, id):
+    conn = getconn()
+    cursor = conn.cursor()
+    cursor.execute(statement, id)
+    conn.commit()
+    conn.close()

@@ -6,15 +6,20 @@ import models
 import dao
 
 
-
 class UserService():
     
-    def create(self,user):
-        id = dao.create(
-            "insert into user ( name, username, password, fk_usergroup ) values ( ?, ?, ?, ? )",
-            (user.name, user.username, user.password, user.fk_usergroup)
-        )
-        user.id = id
+    def save(self,user):
+        if(user.id):
+            dao.save(
+                "update user set name = ?, username = ?, fk_usergroup = ? where id = ?",
+                (user.name, user.username, user.fk_usergroup, user.id)
+            )
+        else:
+            id = dao.save(
+                "insert into user ( name, username, password, fk_usergroup ) values ( ?, ?, ?, ? )",
+                (user.name, user.username, user.password, user.fk_usergroup)
+            )
+            user.id = id
         return user
 
     def getone(self, id):
@@ -26,18 +31,27 @@ class UserService():
             users.append(self.parse(row))
         return users
 
+    def delete(self, id):
+        dao.delete("delete from user where id = ?", (id,))
+
     def parse(self,result):
         return models.User(result[0], result[1], result[2], None, result[4])
 
 
 class UsergroupService():
     
-    def create(self, usergroup):
-        id = dao.create(
-            "insert into usergroup (name) values (?)",
-            (usergroup.name,)
-        )
-        usergroup.id = id
+    def save(self, usergroup):
+        if(usergroup.id):
+            dao.save(
+                "update usergroup set name = ? where id = ?",
+                (usergroup.name, usergroup.id)
+            )
+        else:
+            id = dao.save(
+                "insert into usergroup (name) values (?)",
+                (usergroup.name,)
+            )
+            usergroup.id = id
         return usergroup
 
     def getone(self, id):
@@ -49,6 +63,9 @@ class UsergroupService():
         for row in dao.getall("select * from usergroup"):
             usergroups.append(self.parse(row))
         return usergroups
+
+    def delete(self, id):
+        dao.delete("delete from usergroup where id = ?", (id,))
 
     def parse(self,result):
         return models.Usergroup(result[0], result[1])
