@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import json
-
 class User():
     
     def __init__(
@@ -10,35 +8,28 @@ class User():
         name=None, 
         username=None, 
         password=None, 
-        fk_usergroup=None
+        usergroup=None
     ):
         self.id = id
         self.name = name
         self.username = username
         self.password = password
-        self.fk_usergroup = fk_usergroup
+        self.usergroup = usergroup
 
     id = None
     name = None
     username = None
     password = None
-    fk_usergroup = None
-    
-    def to_JSON(self):
-        return to_JSON(self)
+    usergroup = None
+
 
 class Usergroup():
 
-    def __init__(self, id=None, name=None):
+    def __init__(self, id=None, name=None, users=None):
         self.id = id
         self.name = name
+        self.users = users
     
     id = None
     name = None
-
-    def to_JSON(self):
-        return to_JSON(self)
-
-
-def to_JSON(obj):
-    return json.dumps(obj, default=lambda o: o.__dict__) 
+    users = None

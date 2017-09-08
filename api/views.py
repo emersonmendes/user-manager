@@ -18,31 +18,31 @@ class UserController():
 
     @app.route("/users", methods=['GET'])
     def getall_user():
-        return success(models.to_JSON(user_service.getall()))
+        return success(to_JSON(user_service.getall()))
     
     @app.route("/users/<int:user_id>", methods=['GET'])
     def getone_user(user_id):
-        return success(user_service.getone(user_id).to_JSON())
+        return success(to_JSON(user_service.getone(user_id)))
 
     @app.route("/users", methods=['POST'])
     def save_user():
         data = request.json
-        return success(user_service.save(models.User(
+        return success(to_JSON(user_service.save(models.User(
             name=data['name'],
             username=data['username'],
             password=data['password'],
-            fk_usergroup=data['fk_usergroup']
-        )).to_JSON())
+            usergroup=models.Usergroup(id=data["usergroup"]["id"])
+        ))))
 
     @app.route("/users", methods=['PUT'])
     def update_user():
         data = request.json
-        return success(user_service.save(models.User(
+        return success(to_JSON(user_service.save(models.User(
             data['id'],
             data['name'],
             data['username'],
             data['fk_usergroup']
-        )).to_JSON())
+        ))))
 
     @app.route("/users/<int:user_id>", methods=['DELETE'])
     def delete_user(user_id):
@@ -53,22 +53,22 @@ class UsergroupController():
 
     @app.route("/usergroups", methods=['GET'])
     def getall_usergroup():
-        return success(models.to_JSON(usergroup_service.getall()))
+        return success(to_JSON(usergroup_service.getall()))
     
     @app.route("/usergroups/<int:usergroup_id>", methods=['GET'])
     def getone_usergroup(usergroup_id):
-        return success(usergroup_service.getone(usergroup_id).to_JSON())
+        return success(to_JSON(usergroup_service.getone(usergroup_id)))
    
     @app.route("/usergroups", methods=['POST'])
     def save_usergroup():
-        return success(usergroup_service.save(models.Usergroup(name=request.json['name'])).to_JSON())
+        return success(to_JSON(usergroup_service.save(models.Usergroup(name=request.json['name']))))
     
     @app.route("/usergroups", methods=['PUT'])
     def update_usergroup():
-        return success(usergroup_service.save(models.Usergroup(
+        return success(to_JSON(usergroup_service.save(models.Usergroup(
             request.json['id'],
             request.json['name']
-        )).to_JSON())
+        ))))
 
     @app.route("/usergroups/<int:usergroup_id>", methods=['DELETE'])
     def delete_usergroup(usergroup_id):
@@ -78,3 +78,6 @@ class UsergroupController():
 
 def success(data=None):
     return Response(data, status=200, mimetype='application/json')
+
+def to_JSON(obj):
+    return json.dumps(obj, default=lambda o: o.__dict__) 
