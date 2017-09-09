@@ -41,7 +41,8 @@ class UserController():
             data['id'],
             data['name'],
             data['username'],
-            data['fk_usergroup']
+            data['password'],
+            models.Usergroup(id=data['usergroup']['id'])
         ))))
 
     @app.route("/users/<int:user_id>", methods=['DELETE'])
@@ -58,6 +59,10 @@ class UsergroupController():
     @app.route("/usergroups/<int:usergroup_id>", methods=['GET'])
     def getone_usergroup(usergroup_id):
         return success(to_JSON(usergroup_service.getone(usergroup_id)))
+
+    @app.route("/usergroups/<int:usergroup_id>/users", methods=['GET'])
+    def getone_usergroup_with_users(usergroup_id):
+        return success(to_JSON(usergroup_service.getone_with_users(usergroup_id)))
    
     @app.route("/usergroups", methods=['POST'])
     def save_usergroup():
@@ -79,5 +84,6 @@ class UsergroupController():
 def success(data=None):
     return Response(data, status=200, mimetype='application/json')
 
+
 def to_JSON(obj):
-    return json.dumps(obj, default=lambda o: o.__dict__) 
+    return json.dumps(obj, sort_keys=True, default=lambda o: o.__dict__) 

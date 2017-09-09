@@ -11,8 +11,8 @@ class UserService():
     def save(self,user):
         if(user.id):
             dao.save(
-                "update user set name = ?, username = ?, fk_usergroup = ? where id = ?",
-                (user.name, user.username, user.usergroup.id, user.id)
+                "update user set name = ?, username = ?, password = ?, fk_usergroup = ? where id = ?",
+                (user.name, user.username, user.password, user.usergroup.id, user.id)
             )
         else:
             id = dao.save(
@@ -25,11 +25,7 @@ class UserService():
     def getone(self, id):
         return self.parse(dao.getone("""
             select 
-                u.id,
-                u.name,
-                u.username,
-                ug.id,
-                ug.name    
+                u.id, u.name, u.username, u.password, ug.id, null   
             from 
                 user u
             join
@@ -41,10 +37,7 @@ class UserService():
         users = []
         for row in dao.getall("""
             select 
-                u.id,
-                u.name,
-                u.username,
-                ug.id
+                u.id, u.name, u.username, u.password, ug.id, null
             from 
                 user u
             join
@@ -53,20 +46,38 @@ class UserService():
             users.append(self.parse(row))
         return users
 
+    def get_by_usergroup(self, fk_usergroup):
+        users = []
+        for row in dao.getall("""
+            select 
+                u.id, u.name, u.username, u.password, ug.id, null
+            from 
+                user u
+            join
+                usergroup ug on u.fk_usergroup = ug.id
+            where
+                u.fk_usergroup = ?
+        """, (fk_usergroup,)):
+            users.append(self.parse(row,includes_usergroup=False))
+        return users
+
     def delete(self, id):
         dao.delete("delete from user where id = ?", (id,))
 
-    def parse(self,result):
-        if(result is None):
+    def parse(self,r,includes_usergroup=True):
+        
+        if(r is None):
             return None
-        return models.User(
-            result[0], 
-            result[1], 
-            result[2], 
-            None, 
-            models.Usergroup(result[3], result[4])
-        )
+        
+        if(includes_usergroup):
+            usergroup=models.Usergroup(r[4],r[5])
+        else:
+            usergroup=None
 
+        return models.User(r[0],r[1],r[2],r[3], usergroup)
+
+
+userService = UserService()
 
 class UsergroupService():
     
@@ -87,6 +98,11 @@ class UsergroupService():
     def getone(self, id):
         return self.parse(dao.getone("select * from usergroup where id = ? ",(id,)))
 
+    def getone_with_users(self, id):
+        usergroup = self.getone(id)
+        usergroup.users = userService.get_by_usergroup(id)
+        return usergroup
+
     def getall(self):
         usergroups = []
         for row in dao.getall("select * from usergroup"):
@@ -96,7 +112,7 @@ class UsergroupService():
     def delete(self, id):
         dao.delete("delete from usergroup where id = ?", (id,))
 
-    def parse(self,result):
-        if(result is None):
+    def parse(self,r):
+        if(r is None):
             return None
-        return models.Usergroup(result[0], result[1])
+        return models.Usergroup(r[0],r[1])

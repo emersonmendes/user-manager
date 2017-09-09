@@ -13,12 +13,19 @@ def getone(query, params):
     conn.close()
     return result
 
-def getall(query):
+def getall(query, params=None):
+    
     conn = getconn()
     cursor = conn.cursor()
-    cursor.execute(query)
+    
+    if(params):
+        cursor.execute(query, params)
+    else:
+        cursor.execute(query)
+    
     result = cursor.fetchall()
     conn.close()
+    
     return result
 
 def save(statement, params):
