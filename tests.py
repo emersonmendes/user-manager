@@ -6,17 +6,21 @@ import os
 import db
 import json
 
-_db_file = "test.db"
-os.environ['UM_DATABASE'] = _db_file
-
 _usergroups_ep = "/usergroups"
 _users_ep = "/users"
+_db_file = "test.db"
+
+os.environ['UM_DATABASE'] = _db_file
 
 class IntegrationTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
         db.create_all()
+
+    @classmethod
+    def tearDownClass(cls):
+        db.rm_db()
 
     def test_db(self):
         self.assertTrue(os.path.exists(_db_file))
@@ -25,6 +29,7 @@ class IntegrationTestCase(unittest.TestCase):
         res = app.test_client(self).get('/')
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.data, 'Welcome to User Manager')
+
 
     """ Integration tests for Usergroup """
 
@@ -80,7 +85,9 @@ class IntegrationTestCase(unittest.TestCase):
         usergroup_id = save_user_obj['usergroup']['id']
         res = app.test_client(self).get(_usergroups_ep + "/" + str(usergroup_id) + _users_ep)
         self.assertEqual(res.status_code, 200)
-        self.assertIsNotNone(json.loads(res.data)['users'])
+        users = json.loads(res.data)['users']
+        self.assertIsNotNone(users)
+        self.assertIsNone(users[0]['usergroup'])
 
     def test_delete_usergroup(self): 
         save_obj = self.create_usergroup("Teste Delete Usergroup")
@@ -89,6 +96,7 @@ class IntegrationTestCase(unittest.TestCase):
         res = app.test_client(self).delete(_usergroups_ep + "/" + str(save_obj_id))
         self.assertEqual(res.status_code, 200)
         self.assertIsNone(self.getone_usergroup(save_obj_id))
+
 
     """ Integration test for User """
 
@@ -136,10 +144,6 @@ class IntegrationTestCase(unittest.TestCase):
         update_obj = json.loads(res.data)
         self.assertEqual(update_obj['id'], save_obj['id'])
         self.assertNotEqual(update_obj['name'], user_name)
-
-    @classmethod
-    def tearDownClass(cls):
-        db.rm_db()
 
     def test_getall_user(self):   
         res = app.test_client(self).get(_users_ep)

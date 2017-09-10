@@ -53,6 +53,7 @@ class UserController():
         user_service.delete(user_id)
         return success()
 
+
 class UsergroupController():
 
     @app.route(_usergroups_ep, methods=['GET'])
@@ -86,7 +87,6 @@ class UsergroupController():
 
 def success(data=None):
     return Response(data, status=200, mimetype='application/json')
-
 
 def to_JSON(obj):
     return json.dumps(obj, sort_keys=True, default=lambda o: o.__dict__) 

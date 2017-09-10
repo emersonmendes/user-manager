@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from flask import jsonify
-import sqlite3
 import models
 import dao
 
@@ -62,7 +60,7 @@ class UserService():
         return users
 
     def delete(self, id):
-        dao.delete("delete from user where id = ?", (id,))
+        dao.delete("user", (id,))
 
     def parse(self,r,includes_usergroup=True):
         
@@ -96,7 +94,7 @@ class UsergroupService():
         return usergroup
 
     def getone(self, id):
-        return self.parse(dao.getone("select * from usergroup where id = ? ",(id,)))
+        return self.parse(dao.getone("select id, name from usergroup where id = ? ",(id,)))
 
     def getone_with_users(self, id):
         usergroup = self.getone(id)
@@ -105,12 +103,12 @@ class UsergroupService():
 
     def getall(self):
         usergroups = []
-        for row in dao.getall("select * from usergroup"):
+        for row in dao.getall("select id, name from usergroup"):
             usergroups.append(self.parse(row))
         return usergroups
 
     def delete(self, id):
-        dao.delete("delete from usergroup where id = ?", (id,))
+        dao.delete("usergroup", (id,))
 
     def parse(self,r):
         if(r is None):

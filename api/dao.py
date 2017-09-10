@@ -37,9 +37,9 @@ def save(statement, params):
     conn.close()
     return cursor.lastrowid
 
-def delete(statement, id):
+def delete(model, id):
     conn = getconn()
     cursor = conn.cursor()
-    cursor.execute(statement, id)
+    cursor.execute("delete from " + model + " where id = ?", id)
     conn.commit()
     conn.close()

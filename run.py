@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import os
 from api import app
 import config
 
