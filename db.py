@@ -39,3 +39,6 @@ def rm_db():
     db = get_db()
     os.remove(db)
     print("Database " + db + " removida com sucesso.")
+
+if __name__ == '__main__':
+    create_all()

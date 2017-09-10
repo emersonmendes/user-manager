@@ -4,14 +4,27 @@
 
 # install
 
-- [sudo] pip install virtualenv
-- virtualenv venv
-- source venv/bin/activate
-- pip install -r requirements.txt
+- install virtualenv
+    - [sudo] pip install virtualenv
+
+- create virtual environment
+    - virtualenv venv
+    
+- activate virtual environment
+    - source venv/bin/activate
+
+- install dependencies:
+    - pip install -r requirements.txt
+
+- create database:
+    - export UM_DATABASE="user_manager.db"  
+    - python db.py
 
 # run app
 
-- source venv/bin/activate
+- activate virtual environment
+    - source venv/bin/activate
+    
 - python run.py
 
 

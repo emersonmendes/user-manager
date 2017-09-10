@@ -3,6 +3,8 @@ from flask import Flask, request, Response
 import services
 import models
 import json
+import urllib
+from flask import url_for
 
 app = Flask(__name__)
 user_service = services.UserService()
@@ -11,8 +13,12 @@ usergroup_service = services.UsergroupService()
 class HomeController():
    
     @app.route("/")
-    def hello():
-        return "Welcome to User Manager"
+    def welcome():
+        response = "<style>table, th, td {border: 1px solid black;padding:5px 15px;}</style><table><tr><th>Function</th><th>Route</th><th>Methods</th></tr>"
+        for rule in sorted(app.url_map.iter_rules(), key=lambda x: x.rule):
+            if (rule.endpoint != 'static'):
+                response = response + "<tr><th>" + rule.endpoint + "</th><th>" + rule.rule.replace("<","[").replace(">","]") + "</th><th>" + ','.join(rule.methods) + "</th></tr>"
+        return "<h4>Welcome to User Manager :)</h4><br/><br/>Available Resources: <br/><br/>" + response + "</table>"
 
 _users_ep = "/users"
 _usergroups_ep = "/usergroups"
