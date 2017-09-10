@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
 import sqlite3
+import os
 
 def getconn():
-    return sqlite3.connect('db.sqlite')
+    return sqlite3.connect(os.environ["UM_DATABASE"])
 
 def getone(query, params):
     conn = getconn()
