@@ -3,8 +3,6 @@ from flask import Flask, request, Response
 import services
 import models
 import json
-import urllib
-from flask import url_for
 
 app = Flask(__name__)
 user_service = services.UserService()

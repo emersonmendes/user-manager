@@ -8,10 +8,10 @@
     - [sudo] pip install virtualenv
 
 - create virtual environment
-    - virtualenv venv
+    - virtualenv user-manager-env
     
 - activate virtual environment
-    - source venv/bin/activate
+    - source user-manager-env/bin/activate
 
 - install dependencies:
     - pip install -r requirements.txt

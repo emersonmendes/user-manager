@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: UTF-8 -*-
 
 import sqlite3
 import os
@@ -29,7 +30,7 @@ def create_user(cursor):
 def create_all():
     db = get_db()
     if(os.path.exists(db)):
-        print("Database [ " + db + " ] ja existe.")
+        print("Database [ " + db + " ] já existe.")
     else:
         conn =  sqlite3.connect(db)
         cursor = conn.cursor()
