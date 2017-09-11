@@ -1,0 +1,4 @@
+exclude README.md
+include run.py
+include install.sh
+include db.py

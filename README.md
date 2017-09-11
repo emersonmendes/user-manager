@@ -35,3 +35,8 @@
 # add installed dependencies in requirements.txt
 
 - pip freeze > requirements.txt
+
+# Build (Not done yet)
+
+- [sudo] pip install setuptools
+- python setup.py sdist
