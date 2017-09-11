@@ -3,3 +3,5 @@
 db.json
 *.db
 *.sqlite
+dist
+MANIFEST

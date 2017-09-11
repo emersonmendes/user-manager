@@ -28,12 +28,15 @@ def create_user(cursor):
 
 def create_all():
     db = get_db()
-    conn =  sqlite3.connect(db)
-    cursor = conn.cursor()
-    create_usergroup(cursor)
-    create_user(cursor)
-    print("Database " + db + " criada com sucesso.")
-    conn.close()
+    if(os.path.exists(db)):
+        print("Database [ " + db + " ] ja existe.")
+    else:
+        conn =  sqlite3.connect(db)
+        cursor = conn.cursor()
+        create_usergroup(cursor)
+        create_user(cursor)
+        conn.close()
+        print("Database [ " + db + " ] criada com sucesso.")
 
 def rm_db():
     db = get_db()

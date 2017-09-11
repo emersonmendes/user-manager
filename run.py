@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from api import app
+from app import app
 import config
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from api import app
+from app import app
 import unittest
 import os
 import db
@@ -25,10 +25,10 @@ class IntegrationTestCase(unittest.TestCase):
     def test_db(self):
         self.assertTrue(os.path.exists(_db_file))
     
-    def test_home(self):
+    def test_welcome_page(self):
         res = app.test_client(self).get('/')
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(res.data, 'Welcome to User Manager')
+        self.assertIsNotNone(res.data)
 
 
     """ Integration tests for Usergroup """
