@@ -6,3 +6,5 @@ db.json
 dist
 MANIFEST
 UserManager.egg-info
+user_manager.egg-info/
+build/

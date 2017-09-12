@@ -1,4 +1,8 @@
+exclude **/*.py
+include **/*.pyc
+exclude *.py
+include *.pyc
 exclude README.md
-include run.py
+exlude tests.pyc
 include install.sh
-include db.py
+include user-manager.sh

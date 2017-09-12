@@ -2,10 +2,17 @@
 # -*- coding: UTF-8 -*-
 
 import sqlite3
+import sys
 import os
 
+db_name="user-manager.db"
+
 def get_db():
-    return os.environ.get('UM_DATABASE')
+    args = sys.argv
+    for i, arg in enumerate(args):
+        if(arg == "--database"):
+            db_name = args[i + 1]
+    return db_name
 
 def create_usergroup(cursor):
     cursor.execute("""
