@@ -2,8 +2,10 @@
 
 import sqlite3
 import os
+import logging
 
 def getconn():
+    logging.info("DATABASE: ", os.environ["UM_DATABASE"])
     return sqlite3.connect(os.environ["UM_DATABASE"])
 
 def getone(query, params):

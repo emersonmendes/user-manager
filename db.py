@@ -4,6 +4,7 @@
 import sqlite3
 import sys
 import os
+import logging
 
 db_name="user-manager.db"
 
@@ -49,7 +50,7 @@ def create_all():
 def rm_db():
     db = get_db()
     os.remove(db)
-    print("Database " + db + " removida com sucesso.")
+    logging.info("Database " + db + " removida com sucesso.")
 
 if __name__ == '__main__':
     create_all()

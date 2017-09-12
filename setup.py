@@ -6,17 +6,10 @@ import db
 import compileall
 
 
-class PostInstallCommand(install):
-    def run(self):
-        os.system("./install.sh")
-        install.run(self)
-
-
 class PostSDistCommand(sdist):
     def run(self):
         compileall.compile_dir(".") 
         sdist.run(self)
-
 
 setup(                                                                          
     name="user-manager",                                                             
@@ -29,7 +22,6 @@ setup(
     install_requires=['Flask==0.12.2'],
     license="MIT",
     cmdclass={
-        'install': PostInstallCommand,
         'sdist': PostSDistCommand
     }                                     
 )     

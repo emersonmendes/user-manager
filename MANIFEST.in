@@ -1,8 +1,8 @@
 exclude **/*.py
 include **/*.pyc
 exclude *.py
-include *.pyc
+include db.pyc
+include run.pyc
 exclude README.md
-exlude tests.pyc
 include install.sh
 include user-manager.sh

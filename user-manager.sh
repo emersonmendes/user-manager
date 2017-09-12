@@ -12,14 +12,15 @@
 ### END INIT INFO
 
 PORT=5007
-SCRIPT="/usr/bin/python /usr/local/user-manager/run.pyc --port=$PORT --host=0.0.0.0"
 APP_NAME="user-manager"
+APP_PATH="/usr/local/$APP_NAME"
+SCRIPT="/usr/bin/python $APP_PATH/run.pyc --port=$PORT --host=0.0.0.0"
 PIDFILE="/var/run/$APP_NAME.pid"
 LOGFILE="/var/log/$APP_NAME.log"
 
 start() {
   
-  export UM_DATABASE="$APP_NAME.db" #melhorar isso, no install tbm
+  export UM_DATABASE="$APP_PATH"/"$APP_NAME.db" #melhorar isso, no install tbm
 
   if [ -f "/var/run/$PIDNAME" ] && kill -0 $(cat "$PIDNAME"); then
     echo 'Service already running' >&2
