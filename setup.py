@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages  
 from setuptools.command.sdist import sdist    
+import compileall
 import os
 import db                
-import compileall
 
 class PostSDistCommand(sdist):
     def run(self):

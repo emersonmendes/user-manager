@@ -22,12 +22,8 @@ if __name__ == '__main__':
         elif (arg == "--debug"):
             debug = args[i + 1]
 
-    logging.info("Host: " + str(host))
-    logging.info("Port: " + str(port))
-    logging.info("Debug: " + str(debug))
+    logging.info(" Host: " + str(host))
+    logging.info(" Port: " + str(port))
+    logging.info(" Debug: " + str(debug))
     
-    app.run(
-        debug=debug,
-        host=host,
-        port=int(port)
-    )
+    app.run(debug=debug,host=host,port=int(port))
