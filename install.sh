@@ -18,8 +18,15 @@ cp -pR run.pyc "$APP_PATH"/run.pyc
 update-rc.d "$APP_NAME.sh" defaults
 
 DATA_BASE="$APP_PATH"/"$APP_NAME.db"
-echo "Creating database $DATA_BASE ..."
-/usr/bin/python db.pyc --database "$DATA_BASE"
+
+if [ ! -f "$DATA_BASE" ]; then
+    echo "Creating database $DATA_BASE ..."
+    /usr/bin/python db.pyc --database "$DATA_BASE"
+else
+    echo "Using database $DATA_BASE ..."
+fi
+
+chmod +x "$DATA_BASE"
 
 service $APP_NAME stop
 

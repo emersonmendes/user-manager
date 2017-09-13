@@ -2,14 +2,7 @@
 
 class User():
     
-    def __init__(
-        self, 
-        id=None, 
-        name=None, 
-        username=None, 
-        password=None, 
-        usergroup=None
-    ):
+    def __init__(self,id=None,name=None,username=None,password=None,usergroup=None):
         self.id = id
         self.name = name
         self.username = username
