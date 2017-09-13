@@ -5,7 +5,7 @@ import logging
 import sys
 
 host='0.0.0.0'
-port=5009
+port=5007
 debug=True
 
 if __name__ == '__main__':
