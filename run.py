@@ -5,10 +5,12 @@ import logging
 import sys
 
 host='0.0.0.0'
-port=5000
-debug=False
+port=5009
+debug=True
 
 if __name__ == '__main__':
+
+    logging.getLogger().setLevel(logging.INFO)
     
     args = sys.argv
     
@@ -19,5 +21,13 @@ if __name__ == '__main__':
             port = args[i + 1]
         elif (arg == "--debug"):
             debug = args[i + 1]
+
+    logging.info("Host: " + str(host))
+    logging.info("Port: " + str(port))
+    logging.info("Debug: " + str(debug))
     
-    app.run(debug=debug,host=host,port=port)
+    app.run(
+        debug=debug,
+        host=host,
+        port=int(port)
+    )

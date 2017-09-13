@@ -4,6 +4,8 @@ import sqlite3
 import os
 import logging
 
+logging.getLogger().setLevel(logging.INFO)
+
 def getconn():
     logging.info("DATABASE: ", os.environ["UM_DATABASE"])
     return sqlite3.connect(os.environ["UM_DATABASE"])

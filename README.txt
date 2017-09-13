@@ -1,3 +1,8 @@
 # Installation
+sudo sh ./install
 
-python setup.py install
+# Run app
+sudo service user-manager start
+
+#Log
+/var/log/user-manager.log

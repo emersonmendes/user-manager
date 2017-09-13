@@ -1,13 +1,14 @@
 from setuptools import setup, find_packages  
-from setuptools.command.install import install 
 from setuptools.command.sdist import sdist    
 import os
 import db                
 import compileall
 
-
 class PostSDistCommand(sdist):
     def run(self):
+        os.system("rm -Rf dist")
+        os.system("rm -Rf **/*.pyc")
+        os.system("rm -Rf *.pyc")
         compileall.compile_dir(".") 
         sdist.run(self)
 

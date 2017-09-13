@@ -12,24 +12,28 @@
 ### END INIT INFO
 
 PORT=5007
+HOST='0.0.0.0'
+
 APP_NAME="user-manager"
 APP_PATH="/usr/local/$APP_NAME"
-SCRIPT="/usr/bin/python $APP_PATH/run.pyc --port=$PORT --host=0.0.0.0"
+SCRIPT="/usr/bin/python $APP_PATH/run.pyc --port=$PORT --host=$HOST"
 PIDFILE="/var/run/$APP_NAME.pid"
 LOGFILE="/var/log/$APP_NAME.log"
 
+export UM_DATABASE="$APP_PATH"/"$APP_NAME.db"
+
 start() {
   
-  export UM_DATABASE="$APP_PATH"/"$APP_NAME.db" #melhorar isso, no install tbm
-
   if [ -f "/var/run/$PIDNAME" ] && kill -0 $(cat "$PIDNAME"); then
     echo 'Service already running' >&2
     return 1
   fi
+
   echo 'Starting service … App running on port $PORT' >&2
   local CMD="$SCRIPT &> \"$LOGFILE\" & echo \$!"
   su -c "$CMD" "$USER" > "$PIDFILE"
   echo 'Service started' >&2
+  
 }
 
 stop() {

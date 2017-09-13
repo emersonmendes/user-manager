@@ -27,11 +27,6 @@
     
 - python run.py
 
-
-# POST Example
-
-- curl -H "Content-Type: application/json" -X POST --data @teste.json http://localhost:5000/users
-
 # add installed dependencies in requirements.txt
 
 - pip freeze > requirements.txt
