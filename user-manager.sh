@@ -12,7 +12,7 @@
 ### END INIT INFO
 
 PORT=5007
-HOST='0.0.0.0'
+HOST='"0.0.0.0"'
 
 APP_NAME="user-manager"
 APP_PATH="/usr/local/$APP_NAME"
@@ -24,31 +24,38 @@ export UM_DATABASE="$APP_PATH"/"$APP_NAME.db"
 
 start() {
   
-  if [ -f "/var/run/$PIDNAME" ] && kill -0 $(cat "$PIDNAME"); then
-    echo 'Service already running' >&2
+  if [ -f "$PIDFILE" ] && kill -0 $(cat "$PIDFILE"); then
+    echo "Service already running" >&2
+    echo "Process: $( cat $PIDFILE )"
     return 1
   fi
 
-  echo 'Starting service … App running on port $PORT' >&2
-  local CMD="$SCRIPT &> \"$LOGFILE\" & echo \$!"
+  echo "Starting service …" >&2
+  CMD="$SCRIPT &> $LOGFILE & echo \$!"
   su -c "$CMD" "$USER" > "$PIDFILE"
-  echo 'Service started' >&2
-  
+  echo "Service started on port $PORT" >&2
+  echo "Process: $( cat $PIDFILE )"
+
 }
 
 stop() {
+  
   if [ ! -f "$PIDFILE" ] || ! kill -0 $(cat "$PIDFILE"); then
-    echo 'Service not running' >&2
+    echo "Service not running" >&2
     return 1
   fi
-  echo 'Stopping service…' >&2
-  kill -15 $(cat "$PIDFILE") && rm -f "$PIDFILE"
-  echo 'Service stopped' >&2
+  
+  echo "Stopping service…" >&2
+  echo "Process: $(cat $PIDFILE)"
+
+  kill -9 $(cat "$PIDFILE")
+  rm -f "$PIDFILE"
+  echo "Service stopped" >&2
+
 }
 
 uninstall() {
   echo -n "Are you really sure you want to uninstall this service? That cannot be undone. [yes|No] "
-  local SURE
   read SURE
   if [ "$SURE" = "yes" ]; then
     stop
