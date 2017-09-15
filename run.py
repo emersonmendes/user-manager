@@ -4,26 +4,40 @@ from app import app
 import logging
 import sys
 
-host='0.0.0.0'
-port=5007
-debug=True
+class RunApp():
+
+    DEBUG="--debug"
+    HOST="--host"
+    PORT="--port"
+
+    def __init__(self):
+            
+        logging.getLogger().setLevel(logging.INFO)
+        
+        self.args_dic={
+            self.DEBUG: True,
+            self.HOST: '0.0.0.0',
+            self.PORT: 5007
+        }
+
+    def run(self,args):
+        
+        d=self.args_dic
+               
+        for i, arg in enumerate(args):
+            if(arg in d):
+                d[arg] = args[i + 1]
+
+        logging.info(" Debug: " + str(d[self.DEBUG]))
+        logging.info(" Host: " + str(d[self.HOST]))
+        logging.info(" Port: " + str(d[self.PORT]))
+        
+        app.run(
+            debug=d[self.DEBUG],
+            host=d[self.HOST],
+            port=int(d[self.PORT])
+        )
 
 if __name__ == '__main__':
-
-    logging.getLogger().setLevel(logging.INFO)
-    
-    args = sys.argv
-    
-    for i, arg in enumerate(args):
-        if (arg == "--host"):
-            host = args[i + 1] 
-        elif (arg == "--port"):
-            port = args[i + 1]
-        elif (arg == "--debug"):
-            debug = args[i + 1]
-
-    logging.info(" Host: " + str(host))
-    logging.info(" Port: " + str(port))
-    logging.info(" Debug: " + str(debug))
-    
-    app.run(debug=debug,host=host,port=int(port))
+    RunApp().run(sys.argv)
+   
