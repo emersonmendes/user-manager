@@ -8,3 +8,4 @@ MANIFEST
 UserManager.egg-info
 user_manager.egg-info/
 build/
+user-manager-env/
