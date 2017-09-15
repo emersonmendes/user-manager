@@ -1,1 +1,1 @@
-web: gunicorn --chdir $PWD app:app
+web: gunicorn app
