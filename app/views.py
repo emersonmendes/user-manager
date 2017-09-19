@@ -16,7 +16,7 @@ class HomeController():
         for rule in sorted(app.url_map.iter_rules(), key=lambda x: x.rule):
             if (rule.endpoint != 'static'):
                 response = response + "<tr><th>" + rule.endpoint + "</th><th>" + rule.rule.replace("<","[").replace(">","]") + "</th><th>" + ','.join(rule.methods) + "</th></tr>"
-        return "<h4>Welcome to User Manager :)</h4><br/><br/>Available Resources: <br/><br/>" + response + "</table>"
+        return "<h4>Welcome to User Manager :D</h4><br/><br/>Available Resources: <br/><br/>" + response + "</table>"
 
 _users_ep = "/users"
 _usergroups_ep = "/usergroups"
