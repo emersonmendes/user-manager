@@ -1,1 +1,1 @@
-web: python ./run.py --port 8000 --host 0.0.0.0
+web: python ./run.py --port 8000 --host 127.0.0.1
