@@ -1,5 +1,5 @@
 #!/usr/bin/env python
 
-import views
+from .views import app
 
-app = views.app
+#app = views.app
