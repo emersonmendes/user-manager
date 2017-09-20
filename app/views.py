@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import json
-from flask import Flask, request, Response
 from . import services, models
+
+from flask import Flask, request, Response
 
 app = Flask(__name__)
 user_service = services.UserService()
@@ -67,7 +68,7 @@ class UsergroupController():
     def getone_usergroup(usergroup_id):
         return success(to_JSON(usergroup_service.getone(usergroup_id)))
 
-    @app.route(USERGROUPS_EP + "/<int:usergroup_id>/users", methods=['GET'])
+    @app.route(USERGROUPS_EP + "/<int:usergroup_id>" + USERS_EP, methods=['GET'])
     def getone_usergroup_with_users(usergroup_id):
         return success(to_JSON(usergroup_service.getone_with_users(usergroup_id)))
    
