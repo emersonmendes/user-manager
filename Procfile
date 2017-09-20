@@ -1,1 +1,1 @@
-web python run.py --port 5000
+web: gunicorn run:app
