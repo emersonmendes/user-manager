@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-import models
-import dao
-
+from . import models, dao
 
 class UserService():
     

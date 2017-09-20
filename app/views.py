@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-from flask import Flask, request, Response
-import services
-import models
 import json
+from flask import Flask, request, Response
+from . import services, models
 
 app = Flask(__name__)
 user_service = services.UserService()

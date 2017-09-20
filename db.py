@@ -16,6 +16,7 @@ def get_db():
     return db_name
 
 def create_usergroup(cursor):
+    logging.info("Criando a tabela usergroup")
     cursor.execute("""
         create table usergroup (
             id integer not null primary key autoincrement,
@@ -24,6 +25,7 @@ def create_usergroup(cursor):
     """)
 
 def create_user(cursor):
+    logging.info("Criando a tabela user")
     cursor.execute("""
         create table user (
             id integer not null primary key autoincrement,
@@ -53,4 +55,5 @@ def rm_db():
     logging.info("Database " + db + " removida com sucesso.")
 
 if __name__ == '__main__':
+    logging.getLogger().setLevel(logging.INFO)
     create_all()
