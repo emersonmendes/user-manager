@@ -7,7 +7,7 @@ import os
 import logging
 
 def get_db():
-    return "user-manager.db"
+    return os.environ["UM_DATABASE"]
 
 def create_usergroup(cursor):
     logging.info("Criando a tabela usergroup")

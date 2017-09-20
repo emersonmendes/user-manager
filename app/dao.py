@@ -7,9 +7,7 @@ import logging
 logging.getLogger().setLevel(logging.INFO)
 
 def getconn():
-    database = os.environ["UM_DATABASE"]
-    logging.info("DATABASE: " + str(database))
-    return sqlite3.connect(database)
+    return sqlite3.connect(os.environ["UM_DATABASE"])
 
 def getone(query, params):
     conn = getconn()

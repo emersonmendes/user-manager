@@ -1,8 +1,8 @@
 #! /bin/sh
 #
-######################################
-# Script para configuração do heroku
-######################################
+##############################################
+# Script para configuração da app no heroku
+##############################################
 
 # Cria o banco caso não exista
 export UM_DATABASE="user-manager.db"

@@ -17,20 +17,20 @@ class HomeController():
                 response = response + "<tr><th>" + rule.endpoint + "</th><th>" + rule.rule.replace("<","[").replace(">","]") + "</th><th>" + ','.join(rule.methods) + "</th></tr>"
         return "<h4>Welcome to User Manager :D</h4><br/><br/>Available Resources: <br/><br/>" + response + "</table>"
 
-_users_ep = "/users"
-_usergroups_ep = "/usergroups"
+USERS_EP = "/users"
+USERGROUPS_EP = "/usergroups"
 
 class UserController():
 
-    @app.route(_users_ep, methods=['GET'])
+    @app.route(USERS_EP, methods=['GET'])
     def getall_user():
         return success(to_JSON(user_service.getall()))
     
-    @app.route(_users_ep + "/<int:user_id>", methods=['GET'])
+    @app.route(USERS_EP + "/<int:user_id>", methods=['GET'])
     def getone_user(user_id):
         return success(to_JSON(user_service.getone(user_id)))
 
-    @app.route(_users_ep, methods=['POST'])
+    @app.route(USERS_EP, methods=['POST'])
     def save_user():
         data = request.json
         return success(to_JSON(user_service.save(models.User(
@@ -40,7 +40,7 @@ class UserController():
             usergroup=models.Usergroup(id=data["usergroup"]["id"])
         ))))
 
-    @app.route(_users_ep, methods=['PUT'])
+    @app.route(USERS_EP, methods=['PUT'])
     def update_user():
         data = request.json
         return success(to_JSON(user_service.save(models.User(
@@ -51,7 +51,7 @@ class UserController():
             models.Usergroup(id=data['usergroup']['id'])
         ))))
 
-    @app.route(_users_ep + "/<int:user_id>", methods=['DELETE'])
+    @app.route(USERS_EP + "/<int:user_id>", methods=['DELETE'])
     def delete_user(user_id):
         user_service.delete(user_id)
         return success()
@@ -59,30 +59,30 @@ class UserController():
 
 class UsergroupController():
 
-    @app.route(_usergroups_ep, methods=['GET'])
+    @app.route(USERGROUPS_EP, methods=['GET'])
     def getall_usergroup():
         return success(to_JSON(usergroup_service.getall()))
     
-    @app.route(_usergroups_ep + "/<int:usergroup_id>", methods=['GET'])
+    @app.route(USERGROUPS_EP + "/<int:usergroup_id>", methods=['GET'])
     def getone_usergroup(usergroup_id):
         return success(to_JSON(usergroup_service.getone(usergroup_id)))
 
-    @app.route(_usergroups_ep + "/<int:usergroup_id>/users", methods=['GET'])
+    @app.route(USERGROUPS_EP + "/<int:usergroup_id>/users", methods=['GET'])
     def getone_usergroup_with_users(usergroup_id):
         return success(to_JSON(usergroup_service.getone_with_users(usergroup_id)))
    
-    @app.route(_usergroups_ep, methods=['POST'])
+    @app.route(USERGROUPS_EP, methods=['POST'])
     def save_usergroup():
         return success(to_JSON(usergroup_service.save(models.Usergroup(name=request.json['name']))))
     
-    @app.route(_usergroups_ep, methods=['PUT'])
+    @app.route(USERGROUPS_EP, methods=['PUT'])
     def update_usergroup():
         return success(to_JSON(usergroup_service.save(models.Usergroup(
             request.json['id'],
             request.json['name']
         ))))
 
-    @app.route(_usergroups_ep + "/<int:usergroup_id>", methods=['DELETE'])
+    @app.route(USERGROUPS_EP + "/<int:usergroup_id>", methods=['DELETE'])
     def delete_usergroup(usergroup_id):
         usergroup_service.delete(usergroup_id)
         return success()

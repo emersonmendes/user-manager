@@ -17,7 +17,7 @@
     - pip install -r requirements.txt
 
 - create database:
-    - export UM_DATABASE="user_manager.db"  
+    - export UM_DATABASE="user-manager.db"  
     - python db.py
 
 # run app
