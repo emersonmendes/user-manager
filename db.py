@@ -6,14 +6,8 @@ import sys
 import os
 import logging
 
-db_name="user-manager.db"
-
 def get_db():
-    args = sys.argv
-    for i, arg in enumerate(args):
-        if(arg == "--database"):
-            db_name = args[i + 1]
-    return db_name
+    return "user-manager.db"
 
 def create_usergroup(cursor):
     logging.info("Criando a tabela usergroup")
