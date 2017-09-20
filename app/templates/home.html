@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+    <head>
+        <title>User Manager</title>
+        <style>
+
+            body {
+                padding: 10px 50px;
+            }
+
+            * {
+                font-family: "Courier New", Courier, monospace;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f2f2f2
+            }
+
+            table {
+                border-collapse: collapse;
+                width:100%
+            }
+
+            th, td {
+                border: 1px solid black;
+            }
+
+            th {
+                background-color: #0CA6f0;
+                color: white;
+                height: 30px;
+            }
+
+            td {
+                padding: 5px;
+            }
+
+            .welcome-title {
+                text-align: center;
+                color: gray;
+                font-size: 30px;
+            }
+        
+        </style>
+    </head>
+    <body>
+        <p class="welcome-title">Welcome to User Manager :D </p>
+        <p>Available Resources:</h4></p>
+        <table>
+            <tr>
+                <th>Function</th>
+                <th>Route</th>
+                <th>Method</th>
+            </tr>
+            {% for rule in rules %}
+                <tr>
+                    <td>{{rule.function}}</td>
+                    <td>{{rule.route}}</td>
+                    <td>{{rule.method}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

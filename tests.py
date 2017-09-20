@@ -6,8 +6,8 @@ import os
 import db
 import json
 
-USERGROUPS_EP = "/usergroups"
-USERS_EP = "/users"
+USERGROUPS_ROUTE = "/usergroups"
+USERS_ROUTE = "/users"
 DB_FILE = "test.db"
 
 class IntegrationTestCase(unittest.TestCase):
@@ -33,7 +33,7 @@ class IntegrationTestCase(unittest.TestCase):
 
     def create_usergroup(self, name):
         res = app.test_client(self).post(
-            USERGROUPS_EP,
+            USERGROUPS_ROUTE,
             data=json.dumps({ "name": name }),
             content_type='application/json'
         )
@@ -43,7 +43,7 @@ class IntegrationTestCase(unittest.TestCase):
         return obj
 
     def getone_usergroup(self,id):
-        res = app.test_client(self).get(USERGROUPS_EP + "/" + str(id))
+        res = app.test_client(self).get(USERGROUPS_ROUTE + "/" + str(id))
         self.assertEqual(res.status_code, 200)
         return json.loads(res.data)
 
@@ -56,7 +56,7 @@ class IntegrationTestCase(unittest.TestCase):
         usergroup_name = "Teste Update Usergroup"
         save_obj = self.create_usergroup(usergroup_name)
         res = app.test_client(self).put(
-            USERGROUPS_EP,
+            USERGROUPS_ROUTE,
             data=json.dumps({ 
                 "id" : save_obj['id'],
                 "name": usergroup_name + " New"
@@ -69,7 +69,7 @@ class IntegrationTestCase(unittest.TestCase):
         self.assertNotEqual(update_obj['name'], usergroup_name)
 
     def test_getall_usergroup(self):   
-        res = app.test_client(self).get(USERGROUPS_EP)
+        res = app.test_client(self).get(USERGROUPS_ROUTE)
         self.assertEqual(res.status_code, 200)
 
     def test_getone_usergroup(self): 
@@ -81,7 +81,7 @@ class IntegrationTestCase(unittest.TestCase):
     def test_getone_usergroup_with_users(self):
         save_user_obj = self.create_user("Teste GetOne Usergroup With Users")
         usergroup_id = save_user_obj['usergroup']['id']
-        res = app.test_client(self).get(USERGROUPS_EP + "/" + str(usergroup_id) + USERS_EP)
+        res = app.test_client(self).get(USERGROUPS_ROUTE + "/" + str(usergroup_id) + USERS_ROUTE)
         self.assertEqual(res.status_code, 200)
         users = json.loads(res.data)['users']
         self.assertIsNotNone(users)
@@ -91,7 +91,7 @@ class IntegrationTestCase(unittest.TestCase):
         save_obj = self.create_usergroup("Teste Delete Usergroup")
         save_obj_id = save_obj['id']
         self.assertIsNotNone(self.getone_usergroup(save_obj_id))
-        res = app.test_client(self).delete(USERGROUPS_EP + "/" + str(save_obj_id))
+        res = app.test_client(self).delete(USERGROUPS_ROUTE + "/" + str(save_obj_id))
         self.assertEqual(res.status_code, 200)
         self.assertIsNone(self.getone_usergroup(save_obj_id))
 
@@ -100,7 +100,7 @@ class IntegrationTestCase(unittest.TestCase):
 
     def create_user(self, name):
         res = app.test_client(self).post(
-            USERS_EP,
+            USERS_ROUTE,
             data=json.dumps({ 
                 "name": name,
                 "username": name + "_username",
@@ -115,7 +115,7 @@ class IntegrationTestCase(unittest.TestCase):
         return obj
 
     def getone_user(self,id):
-        res = app.test_client(self).get(USERS_EP + "/" + str(id))
+        res = app.test_client(self).get(USERS_ROUTE + "/" + str(id))
         self.assertEqual(res.status_code, 200)
         return json.loads(res.data)
     
@@ -128,7 +128,7 @@ class IntegrationTestCase(unittest.TestCase):
         user_name = "Teste Update User"
         save_obj = self.create_user(user_name)
         res = app.test_client(self).put(
-            USERS_EP,
+            USERS_ROUTE,
             data=json.dumps({ 
                 "id" : save_obj['id'],
                 "name": user_name + " New",
@@ -144,7 +144,7 @@ class IntegrationTestCase(unittest.TestCase):
         self.assertNotEqual(update_obj['name'], user_name)
 
     def test_getall_user(self):   
-        res = app.test_client(self).get(USERS_EP)
+        res = app.test_client(self).get(USERS_ROUTE)
         self.assertEqual(res.status_code, 200)
 
     def test_getone_user(self): 
@@ -157,7 +157,7 @@ class IntegrationTestCase(unittest.TestCase):
         save_obj = self.create_user("Teste Delete user")
         save_obj_id = save_obj['id']
         self.assertIsNotNone(self.getone_user(save_obj_id))
-        res = app.test_client(self).delete(USERS_EP + "/" + str(save_obj_id))
+        res = app.test_client(self).delete(USERS_ROUTE + "/" + str(save_obj_id))
         self.assertEqual(res.status_code, 200)
         self.assertIsNone(self.getone_user(save_obj_id))
 
