@@ -23,7 +23,7 @@ def create_usergroup(cursor):
 def create_user(cursor):
     logging.info("Criando a tabela user")
     cursor.execute("""
-        create table user (
+        create table \"user\" (
             id bigint not null,
             name varchar not null,
             username varchar not null,
