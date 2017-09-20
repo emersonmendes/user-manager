@@ -14,8 +14,9 @@ def create_usergroup(cursor):
     logging.info("Criando a tabela usergroup")
     cursor.execute("""
         create table usergroup (
-            id bigint not null primary key autoincrement,
+            id bigint not null,
             name varchar not null
+            constraint pk_usergroup primary key (id)
         );
     """)
 
@@ -23,12 +24,13 @@ def create_user(cursor):
     logging.info("Criando a tabela user")
     cursor.execute("""
         create table user (
-            id integer not null primary key autoincrement,
+            id bigint not null,
             name varchar not null,
             username varchar not null,
             password varchar not null,
             fk_usergroup integer,
-            foreign key (fk_usergroup) references usergroup(id)
+            constraint pk_user primary key (id)
+            constraint fk_usergroup foreign key (fk_usergroup) references usergroup(id)
         );
     """)
 
