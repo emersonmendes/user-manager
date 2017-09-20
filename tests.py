@@ -10,8 +10,6 @@ USERGROUPS_EP = "/usergroups"
 USERS_EP = "/users"
 DB_FILE = "test.db"
 
-os.environ['UM_DATABASE'] = DB_FILE
-
 class IntegrationTestCase(unittest.TestCase):
 
     @classmethod
@@ -165,4 +163,6 @@ class IntegrationTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    os.environ['UM_DATABASE'] = DB_FILE
     unittest.main()
+   
