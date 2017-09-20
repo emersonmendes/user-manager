@@ -12,7 +12,7 @@ class UserService():
             )
         else:
             id = dao.save(
-                "insert into user ( name, username, password, fk_usergroup ) values ( ?, ?, ?, ? )",
+                "insert into user ( id, name, username, password, fk_usergroup ) values ( nextval('user_seq'), ?, ?, ?, ? )",
                 (user.name, user.username, user.password, user.usergroup.id)
             )
             user = self.getone(id)
@@ -85,7 +85,7 @@ class UsergroupService():
             )
         else:
             id = dao.save(
-                "insert into usergroup (name) values (?)",
+                "insert into usergroup (id, name) values (nextval('usergroup_seq'), ?)",
                 (usergroup.name,)
             )
             usergroup.id = id
