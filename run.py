@@ -32,7 +32,7 @@ class RunApp():
         logging.info(" Debug: " + str(d[self.DEBUG]))
         logging.info(" Host: " + str(d[self.HOST]))
         logging.info(" Port: " + str(d[self.PORT]))
-        logging.info(" Database: " + str(os.environ["UM_DATABASE"]))
+        logging.info(" Database: " + str(os.environ["UM_DATABASE_NAME"]))
         
         app.run(
             debug=d[self.DEBUG],

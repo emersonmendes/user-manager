@@ -23,7 +23,7 @@
 # run app
 
 - activate virtual environment
-    - source venv/bin/activate
+    - source user-manager-env/bin/activate
     
 - python run.py
 
