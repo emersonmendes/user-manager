@@ -60,11 +60,6 @@ def create_all():
     conn.close()
     logging.info("Database [ {0} ] criada com sucesso.".format(get_db()))
 
-def rm_db():
-    db = get_db()
-    os.remove(db)
-    logging.info("Database " + db + " removida com sucesso.")
-
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
     create_all()
