@@ -15,7 +15,7 @@ class RunApp():
         logging.getLogger().setLevel(logging.INFO)
         
         self.args_dic={
-            self.DEBUG: True,
+            self.DEBUG: False,
             self.HOST: '0.0.0.0',
             self.PORT: 5007
         }
