@@ -24,7 +24,12 @@
 
 - activate virtual environment
     - source user-manager-env/bin/activate
-    
+
+- export UM_DATABASE_HOST="localhost"
+- export UM_DATABASE_NAME="usermanager"
+- export UM_DATABASE_USER="root"
+- export UM_DATABASE_PASS="root"  
+
 - python run.py
 
 # add installed dependencies in requirements.txt

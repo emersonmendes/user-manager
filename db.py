@@ -38,17 +38,23 @@ def get_db():
     return os.environ["UM_DATABASE_NAME"]
 
 def getconn():
-    return psycopg2.connect("""
-        dbname={0} 
-        user={1} 
-        host={2}
-        password={3}
-    """.format(
-        get_db(),
-        os.environ["UM_DATABASE_USER"],
-        os.environ["UM_DATABASE_HOST"],
-        os.environ["UM_DATABASE_PASS"]
-    ))
+
+    try:
+        conn = psycopg2.connect("""
+            dbname={0} 
+            user={1} 
+            host={2}
+            password={3}
+        """.format(
+            get_db(),
+            os.environ["UM_DATABASE_USER"],
+            os.environ["UM_DATABASE_HOST"],
+            os.environ["UM_DATABASE_PASS"]
+        ))
+    except:
+        logging.error("Não conseguiu conectar no banco de dados.")
+
+    return conn
 
 def create_all():
     conn = getconn()
@@ -57,8 +63,11 @@ def create_all():
     create_user(cursor)
     create_sequence(cursor,"usergroup_seq")
     create_sequence(cursor,"user_seq")
+    conn.commit()
     conn.close()
     logging.info("Database [ {0} ] criada com sucesso.".format(get_db()))
+
+
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
