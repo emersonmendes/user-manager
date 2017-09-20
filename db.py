@@ -15,7 +15,7 @@ def create_usergroup(cursor):
     cursor.execute("""
         create table usergroup (
             id bigint not null,
-            name varchar not null
+            name varchar not null,
             constraint pk_usergroup primary key (id)
         );
     """)
@@ -29,7 +29,7 @@ def create_user(cursor):
             username varchar not null,
             password varchar not null,
             fk_usergroup integer,
-            constraint pk_user primary key (id)
+            constraint pk_user primary key (id),
             constraint fk_usergroup foreign key (fk_usergroup) references usergroup(id)
         );
     """)
