@@ -11,11 +11,6 @@ USERS_ROUTE = "/users"
 
 class IntegrationTestCase(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(self):
-        db.drop_all()
-        db.create_all()
-    
     def test_welcome_page(self):
         res = app.test_client(self).get('/')
         self.assertEqual(res.status_code, 200)
@@ -156,6 +151,5 @@ class IntegrationTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    os.environ['UM_DATABASE_NAME'] = os.environ['UM_DATABASE_NAME'] + "_test"
     unittest.main()
    
