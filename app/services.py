@@ -85,7 +85,7 @@ class UsergroupService():
             )
         else:
             id = dao.save(
-                "insert into usergroup (id, name) values (nextval('usergroup_seq'), %s)",
+                "insert into usergroup (id, name) values (nextval('usergroup_seq'), %s)", 
                 (usergroup.name,)
             )
             usergroup.id = id
