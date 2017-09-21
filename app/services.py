@@ -7,12 +7,12 @@ class UserService():
     def save(self,user):
         if(user.id):
             dao.save(
-                "update user set name = ?, username = ?, password = ?, fk_usergroup = ? where id = ?",
+                "update \"user\" set name = %s, username = %s, password = %s, fk_usergroup = %s where id = %s",
                 (user.name, user.username, user.password, user.usergroup.id, user.id)
             )
         else:
             id = dao.save(
-                "insert into user ( id, name, username, password, fk_usergroup ) values ( nextval('user_seq'), ?, ?, ?, ? )",
+                "insert into \"user\" ( id, name, username, password, fk_usergroup ) values ( nextval('user_seq'), %s, %s, %s, %s )",
                 (user.name, user.username, user.password, user.usergroup.id)
             )
             user = self.getone(id)
@@ -23,10 +23,10 @@ class UserService():
             select 
                 u.id, u.name, u.username, u.password, ug.id, null   
             from 
-                user u
+                \"user\" u
             join
                 usergroup ug on u.fk_usergroup = ug.id
-            where u.id = ? 
+            where u.id = %s
         """,(id,)))
 
     def getall(self):
@@ -35,7 +35,7 @@ class UserService():
             select 
                 u.id, u.name, u.username, u.password, ug.id, null
             from 
-                user u
+                \"user\" u
             join
                 usergroup ug on u.fk_usergroup = ug.id
         """):
@@ -48,17 +48,17 @@ class UserService():
             select 
                 u.id, u.name, u.username, u.password, ug.id, null
             from 
-                user u
+                \"user\" u
             join
                 usergroup ug on u.fk_usergroup = ug.id
             where
-                u.fk_usergroup = ?
+                u.fk_usergroup = %s
         """, (fk_usergroup,)):
             users.append(self.parse(row,includes_usergroup=False))
         return users
 
     def delete(self, id):
-        dao.delete("user", (id,))
+        dao.delete("\"user\"", (id,))
 
     def parse(self,r,includes_usergroup=True):
         
@@ -80,19 +80,19 @@ class UsergroupService():
     def save(self, usergroup):
         if(usergroup.id):
             dao.save(
-                "update usergroup set name = ? where id = ?",
+                "update usergroup set name = %s where id = %s",
                 (usergroup.name, usergroup.id)
             )
         else:
             id = dao.save(
-                "insert into usergroup (id, name) values (nextval('usergroup_seq'), ?)",
+                "insert into usergroup (id, name) values (nextval('usergroup_seq'), %s)",
                 (usergroup.name,)
             )
             usergroup.id = id
         return usergroup
 
     def getone(self, id):
-        return self.parse(dao.getone("select id, name from usergroup where id = ? ",(id,)))
+        return self.parse(dao.getone("select id, name from usergroup where id = %s ",(id,)))
 
     def getone_with_users(self, id):
         usergroup = self.getone(id)

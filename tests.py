@@ -8,20 +8,13 @@ import json
 
 USERGROUPS_ROUTE = "/usergroups"
 USERS_ROUTE = "/users"
-DB_FILE = "test.db"
 
 class IntegrationTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
+        db.drop_all()
         db.create_all()
-
-    @classmethod
-    def tearDownClass(cls):
-        db.rm_db()
-
-    def test_db(self):
-        self.assertTrue(os.path.exists(DB_FILE))
     
     def test_welcome_page(self):
         res = app.test_client(self).get('/')
@@ -29,7 +22,7 @@ class IntegrationTestCase(unittest.TestCase):
         self.assertIsNotNone(res.data)
 
 
-    """ Integration tests for Usergroup """
+    # """ Integration tests for Usergroup """
 
     def create_usergroup(self, name):
         res = app.test_client(self).post(
@@ -96,7 +89,7 @@ class IntegrationTestCase(unittest.TestCase):
         self.assertIsNone(self.getone_usergroup(save_obj_id))
 
 
-    """ Integration test for User """
+    # """ Integration test for User """
 
     def create_user(self, name):
         res = app.test_client(self).post(
@@ -163,6 +156,6 @@ class IntegrationTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    os.environ['UM_DATABASE'] = DB_FILE
+    os.environ['UM_DATABASE_NAME'] = os.environ['UM_DATABASE_NAME'] + "_test"
     unittest.main()
    

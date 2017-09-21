@@ -38,35 +38,48 @@ def get_db():
     return os.environ["UM_DATABASE_NAME"]
 
 def getconn():
-
-    try:
-        conn = psycopg2.connect("""
-            dbname={0} 
-            user={1} 
-            host={2}
-            password={3}
-        """.format(
-            get_db(),
-            os.environ["UM_DATABASE_USER"],
-            os.environ["UM_DATABASE_HOST"],
-            os.environ["UM_DATABASE_PASS"]
-        ))
-    except:
-        logging.error("Não conseguiu conectar no banco de dados.")
-
+    conn = psycopg2.connect("""
+        dbname={0} 
+        user={1} 
+        host={2}
+        password={3}
+    """.format(
+        get_db(),
+        os.environ["UM_DATABASE_USER"],
+        os.environ["UM_DATABASE_HOST"],
+        os.environ["UM_DATABASE_PASS"]
+    ))
     return conn
+    
 
 def create_all():
-    conn = getconn()
-    cursor = conn.cursor()
-    create_usergroup(cursor)
-    create_user(cursor)
-    create_sequence(cursor,"usergroup_seq")
-    create_sequence(cursor,"user_seq")
-    conn.commit()
-    conn.close()
-    logging.info("Database [ {0} ] criada com sucesso.".format(get_db()))
+    try:
+        conn = getconn()
+        cursor = conn.cursor()
+        create_usergroup(cursor)
+        create_user(cursor)
+        create_sequence(cursor,"usergroup_seq")
+        create_sequence(cursor,"user_seq")
+        conn.commit()
+        conn.close()
+        logging.info("Database [ {0} ] criada com sucesso.".format(get_db()))
+    except:
+        logging.error("Não conseguiu criar o banco de dados.")
 
+def drop_all():
+    try:
+        conn = getconn()
+        conn.set_isolation_level(0)
+        cursor = conn.cursor()
+        cursor.execute("drop table usergroup cascade")
+        cursor.execute("drop table \"user\" cascade")
+        cursor.execute("drop sequence usergroup_seq")
+        cursor.execute("drop sequence user_seq")
+        conn.commit()
+        conn.close()
+        logging.info("Dados dropados com sucesso")
+    except:
+        logging.error("Não conseguiu dropar o banco de dados.")
 
 
 if __name__ == '__main__':

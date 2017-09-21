@@ -46,14 +46,15 @@ def getall(query, params=None):
 def save(statement, params):
     conn = getconn()
     cursor = conn.cursor()
-    cursor.execute(statement, params)
+    cursor.execute(statement + " returning id", params)
     conn.commit()
+    id = cursor.fetchone()[0]
     conn.close()
-    return cursor.lastrowid
+    return id
 
 def delete(model, id):
     conn = getconn()
     cursor = conn.cursor()
-    cursor.execute("delete from " + model + " where id = ?", id)
+    cursor.execute("delete from " + model + " where id = %s", id)
     conn.commit()
     conn.close()
