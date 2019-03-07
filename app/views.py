@@ -42,7 +42,7 @@ class UserController():
     @app.route(USERS_ROUTE, methods=['POST'])
     def save_user():
         data = request.json
-        return success(to_JSON(user_service.save(models.User(
+        return created(to_JSON(user_service.save(models.User(
             name=data['name'],
             username=data['username'],
             password=data['password'],
@@ -99,6 +99,9 @@ class UsergroupController():
 
 def success(data=None):
     return Response(data, status=200, mimetype='application/json')
+
+def created(data=None):
+    return Response(data, status=201, mimetype='application/json')
 
 def to_JSON(obj):
     return json.dumps(obj, sort_keys=True, default=lambda o: o.__dict__) 
