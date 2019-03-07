@@ -42,7 +42,7 @@ class UserController():
     @app.route(USERS_ROUTE, methods=['POST'])
     def save_user():
         data = request.json
-        return created(to_JSON(user_service.save(models.User(
+        return success(to_JSON(user_service.save(models.User(
             name=data['name'],
             username=data['username'],
             password=data['password'],
